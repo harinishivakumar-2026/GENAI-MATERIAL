@@ -102,7 +102,7 @@ class DBConfig(BaseModel):
     user: str
     password: str
     host: str
-    port: str
+    port: int
 
 # Load DB credentials
 logger.info(f"Loading database credentials from Secrets Manager ARN {SECRETS_ARN}")

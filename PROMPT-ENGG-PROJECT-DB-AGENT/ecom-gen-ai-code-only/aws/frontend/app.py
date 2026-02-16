@@ -126,7 +126,7 @@ def initialize_session_state():
 initialize_session_state()
 
 # API base URL for backend communication
-API_BASE_URL = "http://localhost:8002"
+API_BASE_URL = os.getenv("API_BASE_URL", "http://localhost:8002")
 
 # Pagination settings
 PAGE_SIZE = 100

@@ -5,7 +5,7 @@ import pathlib
 
 def data_dir() -> str:
     """The directory where the csv files are located"""
-    return Path('data')
+    return pathlib.Path(__file__).parent.parent/'data'
 
 
 def db_name() -> str:
@@ -15,17 +15,17 @@ def db_name() -> str:
 
 def db_user() -> str:
     """Database user"""
-    return 'postgres'
+    return 'root'
 
 
 def db_password() -> str:
     """Database password"""
-    return 'postgres1234'
+    return ''
 
 
 def db_host() -> str:
     """Database host"""
-    return 'prompt-engg-project.csp4i2q8g62l.us-east-1.rds.amazonaws.com'
+    return 'localhost'
 
 
 def db_port() -> str:
