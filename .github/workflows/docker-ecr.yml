@@ -1,12 +1,13 @@
 name: Deploy Travel Agent to Amazon ECR
-
+# This is the "Brain" of the detection
 on:
   push:
     branches:
       - master
     # IMPORTANT: Only trigger if files in the Travel Agent directory change
     paths:
-      - 'TRAVEL-LANGGRAPH-AGENT/langgraph-agent/**'
+      - 'TRAVEL-LANGGRAPH-AGENT/**' # Triggers only when this folder changes
+  workflow_dispatch: # This adds a "Run Workflow" button for manual testing
 
 permissions:
   contents: read
@@ -14,8 +15,8 @@ permissions:
 jobs:
   deploy:
     name: Build and Push
+  build-and-push:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
@@ -46,5 +47,10 @@ jobs:
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG -t $ECR_REGISTRY/$ECR_REPOSITORY:latest .
           
           # 3. Push to ECR
+          # Use the path relative to your git root
+          cd TRAVEL-LANGGRAPH-AGENT/langgraph-agent
+          
+          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG -t $ECR_REGISTRY/$ECR_REPOSITORY:latest .
+          
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
