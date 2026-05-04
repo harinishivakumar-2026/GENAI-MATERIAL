@@ -1,7 +1,7 @@
 from fastapi import FastAPI, Body, HTTPException
 from app.graph import graph
 from app.config import logger
-
+from langgraph.types import Command
 app = FastAPI(title="Travel Agent API")
 
 @app.post("/chat")
@@ -18,16 +18,16 @@ async def chat(payload: dict = Body(...)):
         elif action == "select_prices":
             # 1. Update the state with the user's choice
             graph.update_state(config, data)
-            
-            # 2. IMPORTANT: Check if we already have both flight AND hotel
-            state_now = graph.get_state(config).values
-            if state_now.get("selected_flight_price") and state_now.get("selected_hotel_price"):
-                # Run the graph to process budget_check and activities
-                # It will automatically stop at 'booking_node' because of the interrupt
-                graph.invoke(None, config)
-            else:
-                # If we're still missing one, just run to the next selection point
-                graph.invoke(None, config)
+            graph.invoke(None, config)
+            # # 2. IMPORTANT: Check if we already have both flight AND hotel
+            # state_now = graph.get_state(config).values
+            # if state_now.get("selected_flight_price") and state_now.get("selected_hotel_price"):
+            #     # Run the graph to process budget_check and activities
+            #     # It will automatically stop at 'booking_node' because of the interrupt
+            #     graph.invoke(None, config)
+            # else:
+            #     # If we're still missing one, just run to the next selection point
+            #     graph.invoke(None, config)
 
         elif action == "confirm_booking":
             graph.invoke(

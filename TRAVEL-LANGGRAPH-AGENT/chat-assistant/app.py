@@ -180,7 +180,14 @@ async def process_agent_response(res_data):
             await cl.Message(content=f"❌ **Budget Alert!** Over by **${abs(remaining):.2f}**.").send()
             return
 
-        summary = f"### 🛡️ Final Confirmation\nReady to book? Remaining: **${remaining:.2f}**."
+        summary = f"""
+### 🛡️ Final Confirmation
+
+✈️ Flight: ${res_data.get("selected_flight_price")}
+🏨 Hotel: ${res_data.get("selected_hotel_price")}
+
+💰 Remaining Budget: **${remaining:.2f}**
+"""
         actions = [cl.Action(name="confirm_booking", label="✅ Confirm & Generate ID", value="confirm", payload={})]
         await cl.Message(content=summary, actions=actions).send()
 

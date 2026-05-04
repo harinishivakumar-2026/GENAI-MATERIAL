@@ -91,17 +91,15 @@ def hotel_agent(state: TravelState):
         return {"hotel_options": [{"name": "Standard Stay", "price": 200.0}]}
 
 def supervisor_node(state: TravelState):
-    # Safely get values, defaulting to 0.0 if None or missing
     total = state.get("total_budget") or 0.0
     f_price = state.get("selected_flight_price") or 0.0
     h_price = state.get("selected_hotel_price") or 0.0
-    
-    # Calculate and round to 2 decimal places
-    remaining = round(total - (f_price + h_price), 2)
-    
-    logger.info(f"--- 🧠 BUDGET CHECK: Total ${total} | Spent ${f_price + h_price} | Remaining ${remaining} ---")
-    
-    # Return the key to update the state
+
+    spent = f_price + h_price
+    remaining = round(total - spent, 2)
+
+    logger.info(f"--- 💰 CALCULATION: {total} - {spent} = {remaining} ---")
+
     return {"remaining_budget": remaining}
 
 def activity_agent(state: TravelState):
