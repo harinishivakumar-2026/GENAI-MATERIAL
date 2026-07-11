@@ -1,2 +1,3 @@
 # GENAI-MATERIAL
 GENAI-MATERIAL
+test mcp - cli 
